@@ -2,9 +2,10 @@
  * @todo 1. 实现强制不借、进位
  * @todo 2. 实现生成带余数的除法
  * @todo 3. 实现可以过滤掉 +0, -0, *1, /1 这些过于简单的题型
- * @todo 4. 
- * 
+ * @todo 4.
+ *
  */
+var count_all_nm=0;
 var ChineseOP = { '+': '＋', '-': '－', '*': '×', '/': '÷'};
 var haveError = false;
 var haveWarning = false;
@@ -23,7 +24,7 @@ function setError() {
 
 /**
  * 判断一个整数是否是素数（也叫质数）
- * @param {integer} num 
+ * @param {integer} num
  */
 function isPrime(num) {
 	return !/^1?$|^(11+?)\1+$/.test(Array(num + 1).join('1'))
@@ -31,8 +32,8 @@ function isPrime(num) {
 
 /**
  * 求两个范围的交集（范围示例：{min: 0, max: 99})
- * @param {object} range1 
- * @param {object} range2 
+ * @param {object} range1
+ * @param {object} range2
  * @return {bool|object} 无交集返回 false, 否则返回交集对象
  */
 function intersectionRange(range1, range2) {
@@ -57,6 +58,13 @@ function intersectionRange(range1, range2) {
  * @param array[int] inarr 只随机一个数组中的数值
  * @returns {number}
  */
+function random(){
+	var ran = Math.random();
+	while(ran<0.095){
+		ran = Math.random();
+	}
+	return ran;
+}
 function randomInt(Min, Max, genotinarr, geinarr, notinarr, inarr) {
 	Min = parseInt(Min);
 	Max = parseInt(Max);
@@ -66,10 +74,10 @@ function randomInt(Min, Max, genotinarr, geinarr, notinarr, inarr) {
 		Max = Min; // 保证范围有效！
 	}
 	var Range = Max - Min;
-	var Rand = Math.random();
+	var Rand = random();
 	var num = Min + Math.round(Rand * Range);
 	var i = 0, pos;
-	
+
 	// 克隆一份数组，避免原数组被修改
 	genotinarr = ( 'object' == typeof(genotinarr) ) ? genotinarr.concat() : [];
 	geinarr = ( 'object' == typeof(geinarr) ) ? geinarr.concat() : [];
@@ -92,8 +100,8 @@ function randomInt(Min, Max, genotinarr, geinarr, notinarr, inarr) {
 		if( right_nums.length <= 0 ) {
 			right_nums = inarr;
 			setError('    错误：inarr 中一共', inarr.length, '个数值，但没有一个能满足要求。');
-		} 
-		num = 0 + Math.round(Math.random() * (right_nums.length - 1 - 0));
+		}
+		num = 0 + Math.round(random() * (right_nums.length - 1 - 0));
 		num = right_nums[num];
 	} else {
 		// 范围内整数可能的个位列表(只要连续10个数以上，个位应该是0-9全的)
@@ -112,12 +120,12 @@ function randomInt(Min, Max, genotinarr, geinarr, notinarr, inarr) {
 			if( pos < 0 ) ges.splice(pos, 1);
 		}
 		if( ges.length <= 0 ) { // 范围内没有整数可以满足对个位数的要求？
-			num = Min + Math.round(Math.random() * (Max - Min));
+			num = Min + Math.round(random() * (Max - Min));
 			setError('    错误：范围 '+Min+'~'+Max+' 中无法满足个位要求。');
 		} else {
 			// 由于大多数能随机成功，先随机几次试试，万一命中的话，就不需要再次尝试，以提高效率：
 			for(i = 0; i < 10; i ++) {
-				num = Min + Math.round(Math.random() * (Max - Min));
+				num = Min + Math.round(random() * (Max - Min));
 				if ( ! ( ges.indexOf(num % 10) < 0 || (notinarr.length > 0 && notinarr.indexOf(num) >= 0 ) ) ) {
 					break;
 				}
@@ -133,16 +141,16 @@ function randomInt(Min, Max, genotinarr, geinarr, notinarr, inarr) {
 					tmparr.push(num);
 				}
 				if( tmparr.length <= 0 ) {
-					num = Min + Math.round(Math.random() * (Max - Min));
+					num = Min + Math.round(random() * (Max - Min));
 					setError('    错误：未能生成范围('+Min+'~'+Max+')内的数值！',
-						'个位不含('+ genotinarr.join(',')+')', '个位必含('+geinarr.join(',')+')', 
+						'个位不含('+ genotinarr.join(',')+')', '个位必含('+geinarr.join(',')+')',
 						'不含('+notinarr.join(',')+')', '必含('+inarr.join(',')+')');
 				} else {
-					pos = 0 + Math.round(Math.random() * (tmparr.length - 1 - 0));
+					pos = 0 + Math.round(random() * (tmparr.length - 1 - 0));
 					num = tmparr[pos];
 				}
 			}
-			// 
+			//
 
 			// for(i = 0; i < 1000; i ++) {
 			// 	num = Min + Math.round(Math.random() * (Max - Min));
@@ -164,17 +172,16 @@ function randomInt(Min, Max, genotinarr, geinarr, notinarr, inarr) {
 			// 			continue; // 不符合
 			// 		}
 			// 	}
-		
+
 			// 	// 生成成功
 			// 	break;
 			// }
 		}
 	}
-
 	return num;
 }
 
-Bmob.initialize("cb918bec30eca29246f7101f5ffebafe", "bc68d3c114c13ec55fe79fbb7df3f166");
+// Bmob.initialize("cb918bec30eca29246f7101f5ffebafe", "bc68d3c114c13ec55fe79fbb7df3f166");
 
 var app = new Vue({
 	el: '#app',
@@ -184,17 +191,17 @@ var app = new Vue({
 		password: '',
 		is_login: false,
 		count: 100,
-		pagerows: 25,
-		cols: 4,
+		pagerows: 20,
+		cols: 5,
 
 		strategy: 'random',
-		diff_operator_adjacent: false,
+		diff_operator_adjacent: true,
 		dissimilarity_operator_adjacent: true,
 
 		isadd: true,
 		issub: true,
-		ismul: true,
-		isdiv: true,
+		ismul: false,
+		isdiv: false,
 		level: '20',
 		rule: '1',
 		whichcond: '',
@@ -207,13 +214,13 @@ var app = new Vue({
 		range_op: [],
 
 		// 加法
-		defrange_add: [{min: 0, max: 100}, {min: 0, max: 100}],
-		result_add: {min: 0, max: 200},
+		defrange_add: [{min: 0, max: 10}, {min: 0, max: 10}],
+		result_add: {min: 1, max: 10},
 		range_add: [],
 
 		// 减法
-		defrange_sub: [{min: 0, max: 200}, {min: 0, max: 100}],
-		result_sub: {min: 0, max: 100},
+		defrange_sub: [{min: 0, max: 10}, {min: 0, max: 10}],
+		result_sub: {min: 0, max: 10},
 		range_sub: [],
 
 		// 乘法
@@ -226,13 +233,13 @@ var app = new Vue({
 		result_div: {min: 2, max: 9},
 		range_div: [],
 
-		borrow: 'random', // 减法借位设置
-		carry: 'random', // 加法进位设置
+		borrow: 'no', // 减法借位设置
+		carry: 'no', // 加法进位设置
 		nomod: 'yes', // 除法余数设置
-		fontsize: 22,
-		fontfamily: '宋体',
-		cellPadding: 6,
-		cellSpacing: 8,
+		fontsize: 26,
+		fontfamily: '微软雅黑',
+		cellPadding: 10,
+		cellSpacing: 16,
 		res: [],
 		appendemptyrows: false,
 		report: {
@@ -247,7 +254,7 @@ var app = new Vue({
 		}
 	},
 	created: function () {
-		this.itemcount = 3;
+		this.itemcount = 2;
 		this.is_login = this.curr_user() ? true : false;
 		this.myCounter();
 	},
@@ -414,7 +421,6 @@ var app = new Vue({
 		},
 
 		genItem: function () {
-
 			// 限制条件：
 			// 1. 减法时必须保证第二个数必须比第一个数小，以避免产生负数结果
 			// 2. 强制进位加法时，被加数个位必须不能为 0，否则无法产生进位，另外还要保证个位相加之和要大于 10
@@ -561,7 +567,7 @@ var app = new Vue({
 			if ('undefined' == typeof(r)) {
 				r = randomInt(range[0].min, range[0].max, limit);
 			}
-
+			console.log(count_all_nm+"|#|11"+this.rule)
 			// 已知得数，求条件，且第一个数就是被求的条件? 则将该数使用空白代替！
 			var arr = [('2' == this.rule && 0 == w) ? this.blank(r) : r];
 			for (var i = 1; i < this.itemcount; i++, op = this.op()) {
@@ -650,7 +656,7 @@ var app = new Vue({
 						isexcept = true;
 					}
 					// 先随机生成【商】res，然后再重随机得到【除数】t，这样才能修正【被除数】r 以实现整除
-					// r / t = res 
+					// r / t = res
 					res = (0 == r) ? 0 : randomInt(min, max, [], [], [0]); // 随机生成商
 					if (0 == res) { // 如果商为 0?
 						// 由于 0 除以 任何数都等于 0，所以这里随便生成一个范围内的除数，但除数不能为 0
@@ -691,7 +697,7 @@ var app = new Vue({
 
 				if ('+' == op && r % 10 + t % 10 >= 10) iscarry = true; // 有进位
 				if ('-' == op && r % 10 < t % 10) isborrow = true; // 有借位
-
+				console.log(count_all_nm+"|#|223"+this.rule)
 				// 已知得数，求条件时，将条件换成空白
 				arr.push(op); // 运算符号
 				arr.push(('2' == this.rule && i == w) ? this.blank(t) : t);
@@ -699,7 +705,7 @@ var app = new Vue({
 				// 计算得数
 				r = Math.floor(eval(r + op + t));
 			}
-
+			console.log(count_all_nm+"|#|333"+this.rule)
 			// 得数
 			arr.push('=');
 			arr.push((/*true ||*/'2' == this.rule) ? r : this.blank(r))
@@ -863,7 +869,7 @@ var app = new Vue({
 					return {min: min - 0, max: max - 0};
 				}
 			}
-			
+
 			// 深克隆两项式，并设置 lor 为另一个，以便能求出本项取值范围
 			var other = JSON.parse(JSON.stringify(item));
 			other.lor = lor =='lft' ? 'rgt' : 'lft';
@@ -902,12 +908,12 @@ var app = new Vue({
 				setError('    错误：根据结果算出来的范围和用户设置范围没有交集。');
 				inter_range = item_new_range;
 			}
-		
-			console.log(Array(item.index*4).fill('-').join('') + 'calcItemLORRange('+item.index+', '+item.lor+')：', '运算符：', item.operator, '，结果：', item.result, 
-				'，用户设置范围：', item_user_range.min+'~'+item_user_range.max, 
-				'，子层结果范围：', (child_result_range ? child_result_range.min+'~'+child_result_range.max : ''), 
-				'，新范围：', item_new_range.min+'~'+item_new_range.max, 
-				'，理论范围：', min+'~'+max, 
+
+			console.log(Array(item.index*4).fill('-').join('') + 'calcItemLORRange('+item.index+', '+item.lor+')：', '运算符：', item.operator, '，结果：', item.result,
+				'，用户设置范围：', item_user_range.min+'~'+item_user_range.max,
+				'，子层结果范围：', (child_result_range ? child_result_range.min+'~'+child_result_range.max : ''),
+				'，新范围：', item_new_range.min+'~'+item_new_range.max,
+				'，理论范围：', min+'~'+max,
 				'，最终范围：', inter_range.min+'~'+inter_range.max);
 
 			return inter_range;
@@ -915,7 +921,7 @@ var app = new Vue({
 
 		/*
 		 * 得到用户设置的指定运算符的结果范围
-		 */ 
+		 */
 		getItemUserResultRange: function(operator) {
 			var user_result_range = { '+': this.result_add, '-': this.result_sub, '*': this.result_mul, '/': this.result_div }[operator];
 			return {min: user_result_range.min - 0, max: user_result_range.max - 0};
@@ -933,7 +939,7 @@ var app = new Vue({
 			// 得到本层两项式的左、右运算项【理论范围】（在只知道运算符，不知道结果的情况下）
 			var left_range = this.calcItemLORRange(items, item, 'lft', false);
 			var right_range = this.calcItemLORRange(items, item, 'rgt', false);
-			
+
 			var min, max;
 
 			// 根据左右运算项范围和运算符号计算出实际范围
@@ -956,10 +962,10 @@ var app = new Vue({
 				return {min:min - 0, max:max - 0};
 			} else {
 				var parent_lor = item.index > 0 ? items[item.index -1].lor : '';
-				console.log(Array(item.index*4).fill('-').join('') + 'calcItemResultRange('+item.index+', '+parent_lor+')：', '运算符：', item.operator, 
-					'，左值范围：', left_range.min+'~'+left_range.max, 
-					'，右值范围：', right_range.min+'~'+right_range.max, 
-					'，用户设置范围：', user_result_range.min+'~'+user_result_range.max, 
+				console.log(Array(item.index*4).fill('-').join('') + 'calcItemResultRange('+item.index+', '+parent_lor+')：', '运算符：', item.operator,
+					'，左值范围：', left_range.min+'~'+left_range.max,
+					'，右值范围：', right_range.min+'~'+right_range.max,
+					'，用户设置范围：', user_result_range.min+'~'+user_result_range.max,
 					'，理论范围：', min+'~'+max,
 					'，最终范围：', inter_range.min+'~'+inter_range.max);
 				return inter_range;
@@ -996,7 +1002,7 @@ var app = new Vue({
 						}
 					}
 					ops = arr;
-				} 
+				}
 				// 相邻的运算符不相同
 				else if( this.diff_operator_adjacent ) {
 					var arr = [];
@@ -1054,7 +1060,7 @@ var app = new Vue({
 			var result_range = this.calcItemResultRange(items, item);
 			var result, min = result_range.min, max = result_range.max;
 			var genotinarr = [], notinarr = [], inarr = [];
-			
+
 			// @todo 结果在某些情况下也要受到限制：
 			// 1. 如果下一层是除法，本层是加减法，则尽量将结果控制在除法运算项允许的范围内？需要综合分析各个范围并给出解决方案?
 			// 2. 结果范围 需要根据运算项修正一下范围？
@@ -1114,7 +1120,7 @@ var app = new Vue({
 			if ( 0 == item.index ) {
 				// 最外层结果 = 只要在最外层运算符规定的范围内就行
 				result = randomInt(min, max, genotinarr, [], notinarr, inarr);
-			} 
+			}
 			// 非顶层要考虑本层和父层两个范围的合并问题：
 			else {
 				// 此时父层结果已经确定，再按父层运算符项确定父层左|右值的范围，并与当前层结果范围求交集，以尽量保证数值在允许的范围内：
@@ -1132,9 +1138,8 @@ var app = new Vue({
 				result = this.genItemLORByRange(items, parent, {min:min, max:max, genotinarr:genotinarr, notinarr:notinarr, inarr:inarr});
 			}
 
-			console.log(Array(item.index*4).fill('-').join('') + 'genItemResult('+item.index+', '+item.lor+')：', 
+			console.log(Array(item.index*4).fill('-').join('') + 'genItemResult('+item.index+', '+item.lor+')：',
 				(item.lor=='lft'?'?':'X')+' '+item.operator+' '+(item.lor=='rgt'?'?':'X')+' = ',result, '('+result+'='+min+'~'+max+')');
-
 			return result;
 		},
 
@@ -1168,7 +1173,7 @@ var app = new Vue({
 			if ('+' == item.operator) {
 				// 限制：不管是被加数还是加数都不允许超过 item.result 的值
 				if (max > item.result) {
-					max = item.result; 
+					max = item.result;
 					if( min > max ) min = max; // 重新修正 min 由于 max 变化
 					setWarning('    修正范围（加法项必须小于结果）：', old_min, old_max, '->', min, max);
 				}
@@ -1246,7 +1251,7 @@ var app = new Vue({
 								tarr.push(i);
 							}
 						}
-					} 
+					}
 					if(!found) {
 						// @todo 在范围(10~24)内找不到商(24)的合适乘数！只能放弃!
 						if( tarr.length <= 0 ) {
@@ -1263,7 +1268,7 @@ var app = new Vue({
 						// 		inarr.push(i);
 						// 		inarr.push(i); // 小技巧：加两次被随机到的可能性大些，以尽量减少 1 * n 和 n * 1 的机率
 						// 	}
-						// } 
+						// }
 					}
 				}
 			}
@@ -1273,7 +1278,7 @@ var app = new Vue({
 			if ('/' == item.operator) {
 				if ('rgt' == item.lor) {
 					notinarr.push(0); // 注意：要避免产生 ? / 0 = ? 的情况，除数不能为 0
-				} 
+				}
 				if( 'lft' == item.lor ) {
 					if( 0 == item.result ) return 0; // 0 / ? = 0, 如果除法结果是 0，则被除数只能是 0，没有随机的空间
 					if ('yes' == this.nomod) {
@@ -1344,8 +1349,8 @@ var app = new Vue({
 			var parent = index > 0 ? items[index - 1] : null;
 
 			// 先为本 index 层预先生成一个结果，同时也会作为父层左、右值（本层结果 = 父层左、右值）：
-			items[index].result = this.genItemResult(items, items[index], parent); // 先根据运算符和结果范围随机生成结果
 
+			items[index].result = this.genItemResult(items, items[index], parent); // 先根据运算符和结果范围随机生成结果
 			// 先一直递归直到最后一项时才开始生成并回溯
 			if (index < this.itemcount - 2) {
 				// 先算子项，然后再根据子项的 result 来求本项的左、右值：
@@ -1389,13 +1394,15 @@ var app = new Vue({
 		},
 
 		formulaToString: function(items) {
+			count_all_nm++;
+			var aaa=1;
 			var str = '', head, tail, tmpstr, op;
 			var w = '' === this.whichcond ? randomInt(0, this.itemcount - 1) : this.whichcond - 0; // 已知得数，随机求某一个条件
 			// 由内向外生成
 			for (var i = items.length - 1; i >= 0; i--) {
 				op = ChineseOP[items[i].operator];
 				// 最外层不加括号
-				head = 0 == i ? '' : '('; 
+				head = 0 == i ? '' : '(';
 				tail = 0 == i ? '' : ')';
 				if( i > 0 && this.parentheses.autofix ) {
 					// 自动去掉无意义的括号
@@ -1409,29 +1416,43 @@ var app = new Vue({
 						head = tail = '';
 					}
 				}
+
+				aaa = 1;
+				if(count_all_nm >50 && (count_all_nm %5)==0){
+					aaa=2;
+				}else{
+					aaa=1;
+				}
 				if (i == items.length - 1) {
-					if( '2' == this.rule && w == i + 1) tmpstr = items[i].lft + op + this.blank(items[i].rgt);
-					else if( '2' == this.rule && w == i + 0) tmpstr = this.blank(items[i].lft) + op + items[i].rgt;
+					if( '2' == aaa && w == i + 1) tmpstr = items[i].lft + op + this.blank(items[i].rgt);
+					else if( '2' == aaa && w == i + 0) tmpstr = this.blank(items[i].lft) + op + items[i].rgt;
 					else tmpstr = items[i].lft + op + items[i].rgt;
 					str = head + tmpstr + tail;
 				} else {
 					if ('lft' == items[i].lor) {
-						if( '2' == this.rule && w == i + 0) tmpstr = this.blank(items[i].rgt);
+						if( '2' == aaa && w == i + 0) tmpstr = this.blank(items[i].rgt);
 						else tmpstr = items[i].rgt;
 						str = head + str + op + tmpstr + tail;
 					} else {
-						if( '2' == this.rule && w == i + 0) tmpstr = this.blank(items[i].lft);
+						if( '2' == aaa && w == i + 0) tmpstr = this.blank(items[i].lft);
 						else tmpstr = items[i].lft;
 						str = head + tmpstr + op + str + tail;
 					}
 				}
 			}
+			if(count_all_nm >50 && (count_all_nm %5)==0){
+				aaa=2;
+			}else{
+				aaa=1;
+			}
 			// 已知得数，求条件，且第一个数就是被求的条件? 则将该数使用空白代替！
-			str += '＝' + ( '1' == this.rule ? this.blank(items[0].result) : items[0].result);
+			str += '＝' + ( '1' == aaa ? this.blank(items[0].result) : items[0].result);
 			return str;
 		},
 
 		doGen: function () {
+			this.rule = 1;
+			count_all_nm = 0;
 			g_mul_result = [];
 			for(var a = this.range_mul[0].min; a <= this.range_mul[0].max; a ++) {
 				for(var b = this.range_mul[1].min; b <= this.range_mul[1].max; b ++) {
@@ -1461,8 +1482,44 @@ var app = new Vue({
 					li: this.genOneFormula()
 					//li: this.genItem()
 				};
+				//console.error(JSON.stringify(item));
 				this.res.push(item);
 			}
+			var tmp={};
+			var arr = [];
+			var addcnt= 0;
+			var subcnt= 0;
+
+			for (var i = 0; i < this.res.length; i++) {
+				var item = this.res[i];
+				if(i>5){
+					pre_r = arr[i-5]["li"][0]["result"];
+					now_r = this.res[i]["li"][0]["result"];
+					pre_l = arr[i-5]["li"][0]["lft"];
+					now_l = this.res[i]["li"][0]["lft"];
+					pre_rr = arr[i-5]["li"][0]["rgt"];
+					now_rr = this.res[i]["li"][0]["rgt"];
+					while(pre_r == now_r || pre_l == now_l|| pre_rr == now_rr) {
+						item = {
+							li: this.genOneFormula()
+						};
+						now_r = item["li"][0]["result"];
+						now_l = item["li"][0]["lft"];
+						now_rr = item["li"][0]["rgt"];
+					}
+				}
+				arr[i]=item;
+				opt = item["li"][0]["operator"];
+				if("+" == opt){
+					addcnt++;
+				}else if("-" == opt){
+					subcnt++;
+				}
+			}
+			this.res = arr;
+			this.report.addcnt = addcnt;
+			this.report.subcnt = subcnt;
+
 		},
 
 		doPrint: function () {

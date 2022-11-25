@@ -9,16 +9,7 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
     <script src="vue.min.js"></script>
-    <script src="bmob-min.js"></script>
-	<script>
-var _hmt = _hmt || [];
-(function() {
-	  var hm = document.createElement("script");
-	    hm.src = "https://hm.baidu.com/hm.js?6f5c7571899f7a1b0a38c68aa6f4e9cb";
-		  var s = document.getElementsByTagName("script")[0]; 
-		    s.parentNode.insertBefore(hm, s);
-})();
-	</script>
+<!--    <script src="bmob-min.js"></script>-->
 
 </head>
 
@@ -39,7 +30,7 @@ var _hmt = _hmt || [];
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            <button type="button" disabled="disabled" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">详细题型设置</h4>
                         </div>
@@ -48,7 +39,7 @@ var _hmt = _hmt || [];
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">快速设置：</label>
                                     <div class="input-group col-sm-8">
-                                        <select name="level" class="form-control" disabled>
+                                        <select name="level" class="form-control">
                                             <option value="">【快捷选题型择（暂未开放）】</option>
                                             <option value="20">20 以内整数加减法</option>
                                             <option value="100n">100 以内加减法不进/借位</option>
@@ -142,7 +133,7 @@ var _hmt = _hmt || [];
                                 </ul>
                                 <!--标签的内容-->
                                 <div class="tab-content" style="padding:10px;">
-              
+
                                     <div class="tab-pane active" id="tab-op">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -369,8 +360,7 @@ var _hmt = _hmt || [];
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-                            <b>小学生口算题自动生成程序 V1.1 by <a style="color:white;" href="https://www.imgxw.com">&copy;高大科技</a></b>
-                            <span class="badge" style="float:right">访客数：{{mycounter}}</span>
+                            <b>小学生口算题自动生成程序</b>
                         </div>
                         <div class="panel-body">
 
@@ -384,7 +374,7 @@ var _hmt = _hmt || [];
                                                 <input type="number" class="form-control" name="count" v-model="count" />
                                                 <div class="input-group-addon">道</div>
                                                 <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#myModal" style="float:right">
+                                                    data-target="#myModal" style="float:right" disabled="disabled">
                                                     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                                                     题型设置...
                                                 </button>
@@ -484,12 +474,12 @@ var _hmt = _hmt || [];
                                 打印试题
                             </button>
                             <span style="float:right">
-                            <a target="_blank" href="https://github.com/hldgaofeng/oralcalc/issues">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                                反馈问题</a>
-                            <a href="mailto:hldgaofeng@qq.com">
-                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                联系作者</a></span>
+<!--                            <a target="_blank" href="https://github.com/hldgaofeng/oralcalc/issues">-->
+<!--                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>-->
+<!--                                反馈问题</a>-->
+<!--                            <a href="mailto:hldgaofeng@qq.com">-->
+<!--                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>-->
+<!--                                联系作者</a></span>-->
                         </div>
                     </div>
                 </div>
@@ -505,8 +495,8 @@ var _hmt = _hmt || [];
                 <tr>
                     <th :colspan="cols" style="text-align:center;">
                         <div class="print-repeat" contenteditable="true">
-                            <h3>口算（100以内加减法混合运算）</h3>
-                            姓名：__________ 日期：____月____日 时间：________ 对题：____道<br /><br />
+                            <h3>口算（10以内加减法混合运算）</h3>
+                            姓名：__________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：____月____日 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;耗时：________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;错：____题<br /><br />
                         </div>
                     </th>
                 </tr>
