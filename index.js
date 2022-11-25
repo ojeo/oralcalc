@@ -5,13 +5,28 @@
  * @todo 4.
  *
  */
+var g_fontsize = 16;
+var g_cellSpacing = 10;
 var count_all_nm=0;
 var ChineseOP = { '+': '＋', '-': '－', '*': '×', '/': '÷'};
 var haveError = false;
 var haveWarning = false;
 var g_mul_result = []; // 范围内可能的乘积，每次变化时重算
 var g_divisor = []; // 整除时被除数可能值列表
-
+function IsPC() {
+	var userAgentInfo = navigator.userAgent;
+	console.log(navigator.userAgent);
+	var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+	var flag = true;
+	for (var v = 0; v < Agents.length; v++) {
+		if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+	}
+	return flag;
+}
+if(IsPC()){
+	g_fontsize = 26;
+	g_cellSpacing = 15;
+}
 function setWarning() {
 	haveWarning = true;
 	console.warn.apply(console, arguments);
@@ -181,6 +196,7 @@ function randomInt(Min, Max, genotinarr, geinarr, notinarr, inarr) {
 	return num;
 }
 
+
 // Bmob.initialize("cb918bec30eca29246f7101f5ffebafe", "bc68d3c114c13ec55fe79fbb7df3f166");
 
 var app = new Vue({
@@ -236,10 +252,10 @@ var app = new Vue({
 		borrow: 'no', // 减法借位设置
 		carry: 'no', // 加法进位设置
 		nomod: 'yes', // 除法余数设置
-		fontsize: 26,
+		fontsize: g_fontsize,
 		fontfamily: '微软雅黑',
 		cellPadding: 10,
-		cellSpacing: 15,
+		cellSpacing: g_cellSpacing,
 		res: [],
 		appendemptyrows: false,
 		report: {
