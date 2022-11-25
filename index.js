@@ -239,7 +239,7 @@ var app = new Vue({
 		fontsize: 26,
 		fontfamily: '微软雅黑',
 		cellPadding: 10,
-		cellSpacing: 16,
+		cellSpacing: 15,
 		res: [],
 		appendemptyrows: false,
 		report: {
