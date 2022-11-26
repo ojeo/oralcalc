@@ -6,7 +6,7 @@
  *
  */
 var g_fontsize = 16;
-var g_cellSpacing = 10;
+var g_cellSpacing = 8;
 var count_all_nm=0;
 var ChineseOP = { '+': '＋', '-': '－', '*': '×', '/': '÷'};
 var haveError = false;
