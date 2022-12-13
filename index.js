@@ -360,14 +360,15 @@ var app = new Vue({
 					});
 				}
 			}
-			if (this.range_op.length > this.itemcount - 1) {
-				this.range_op.splice(this.itemcount - 1);
+			itemcount = 3
+			if (this.range_op.length > itemcount - 1) {
+				this.range_op.splice(itemcount - 1);
 			}
-			if (this.range_add.length > this.itemcount) {
-				this.range_add.splice(this.itemcount);
+			if (this.range_add.length > itemcount) {
+				this.range_add.splice(itemcount);
 			}
-			if (this.range_sub.length > this.itemcount) {
-				this.range_sub.splice(this.itemcount);
+			if (this.range_sub.length > itemcount) {
+				this.range_sub.splice(itemcount);
 			}
 			if (this.range_mul.length > this.itemcount) {
 				this.range_mul.splice(this.itemcount);
@@ -1411,7 +1412,17 @@ var app = new Vue({
 
 		formulaToString: function(items) {
 			count_all_nm++;
-			var aaa=1;
+			var rule = 2;
+			if(count_all_nm >50 && (count_all_nm %5)==0){
+				rule=2;
+			}else{
+				rule=1;
+			}
+			if((count_all_nm <=50 && (count_all_nm %5)==5)){
+				this.itemcount = 3;
+			}else {
+				this.itemcount = 2;
+			}
 			var str = '', head, tail, tmpstr, op;
 			var w = '' === this.whichcond ? randomInt(0, this.itemcount - 1) : this.whichcond - 0; // 已知得数，随机求某一个条件
 			// 由内向外生成
@@ -1433,42 +1444,31 @@ var app = new Vue({
 					// }
 					head = tail = '';
 				}
-
-				aaa = 1;
-				if(count_all_nm >50 && (count_all_nm %5)==0){
-					aaa=2;
-				}else{
-					aaa=1;
-				}
 				if (i == items.length - 1) {
-					if( '2' == aaa && w == i + 1) tmpstr = items[i].lft + op + this.blank(items[i].rgt);
-					else if( '2' == aaa && w == i + 0) tmpstr = this.blank(items[i].lft) + op + items[i].rgt;
+					if( '2' == rule && w == i + 1) tmpstr = items[i].lft + op + this.blank(items[i].rgt);
+					else if( '2' == rule && w == i + 0) tmpstr = this.blank(items[i].lft) + op + items[i].rgt;
 					else tmpstr = items[i].lft + op + items[i].rgt;
 					str = head + tmpstr + tail;
 				} else {
 					if ('lft' == items[i].lor) {
-						if( '2' == aaa && w == i + 0) tmpstr = this.blank(items[i].rgt);
+						if( '2' == rule && w == i + 0) tmpstr = this.blank(items[i].rgt);
 						else tmpstr = items[i].rgt;
 						str = head + str + op + tmpstr + tail;
 					} else {
-						if( '2' == aaa && w == i + 0) tmpstr = this.blank(items[i].lft);
+						if( '2' == rule && w == i + 0) tmpstr = this.blank(items[i].lft);
 						else tmpstr = items[i].lft;
 						str = head + tmpstr + op + str + tail;
 					}
 				}
 			}
-			if(count_all_nm >50 && (count_all_nm %5)==0){
-				aaa=2;
-			}else{
-				aaa=1;
-			}
 			// 已知得数，求条件，且第一个数就是被求的条件? 则将该数使用空白代替！
-			str += '＝' + ( '1' == aaa ? this.blank(items[0].result) : items[0].result);
+			str += '＝' + ( '1' == rule ? this.blank(items[0].result) : items[0].result);
 			return str;
 		},
 
 		doGen: function () {
 			this.rule = 1;
+			this.itemcount = 3;
 			count_all_nm = 0;
 			g_mul_result = [];
 			for(var a = this.range_mul[0].min; a <= this.range_mul[0].max; a ++) {
@@ -1552,7 +1552,7 @@ var app = new Vue({
 			this.res = arr;
 			this.report.addcnt = addcnt;
 			this.report.subcnt = subcnt;
-			this.itemcount = 3;
+			// this.itemcount = 3;
 
 		},
 
