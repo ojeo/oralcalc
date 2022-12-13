@@ -230,13 +230,13 @@ var app = new Vue({
 		range_op: [],
 
 		// 加法
-		defrange_add: [{min: 0, max: 10}, {min: 0, max: 10}],
-		result_add: {min: 1, max: 10},
+		defrange_add: [{min: 0, max: 20}, {min: 0, max: 20}],
+		result_add: {min: 1, max: 20},
 		range_add: [],
 
 		// 减法
-		defrange_sub: [{min: 0, max: 10}, {min: 0, max: 10}],
-		result_sub: {min: 0, max: 10},
+		defrange_sub: [{min: 0, max: 20}, {min: 0, max: 20}],
+		result_sub: {min: 0, max: 20},
 		range_sub: [],
 
 		// 乘法
@@ -249,8 +249,8 @@ var app = new Vue({
 		result_div: {min: 2, max: 9},
 		range_div: [],
 
-		borrow: 'no', // 减法借位设置
-		carry: 'no', // 加法进位设置
+		borrow: 'yes', // 减法借位设置
+		carry: 'yes', // 加法进位设置
 		nomod: 'yes', // 除法余数设置
 		fontsize: g_fontsize,
 		fontfamily: '微软雅黑',
@@ -1422,15 +1422,16 @@ var app = new Vue({
 				tail = 0 == i ? '' : ')';
 				if( i > 0 && this.parentheses.autofix ) {
 					// 自动去掉无意义的括号
-					if( '+*'.indexOf(items[i].operator) >= 0 && items[i].operator == items[i - 1].operator ) {
-						head = tail = '';
-					} else if( '+-'.indexOf(items[i - 1].operator) >= 0 && '*/'.indexOf(items[i].operator) >= 0 ) {
-						head = tail = '';
-					} else if( '-' == items[i - 1].operator && '-' == items[i].operator && 'lft' == items[i - 1].lor ) {
-						head = tail = '';
-					} else if( '/' == items[i - 1].operator && '/' == items[i].operator && 'lft' == items[i - 1].lor ) {
-						head = tail = '';
-					}
+					// if( '+*'.indexOf(items[i].operator) >= 0 && items[i].operator == items[i - 1].operator ) {
+					// 	head = tail = '';
+					// } else if( '+-'.indexOf(items[i - 1].operator) >= 0 && '*/'.indexOf(items[i].operator) >= 0 ) {
+					// 	head = tail = '';
+					// } else if( '-' == items[i - 1].operator && '-' == items[i].operator && 'lft' == items[i - 1].lor ) {
+					// 	head = tail = '';
+					// } else if( '/' == items[i - 1].operator && '/' == items[i].operator && 'lft' == items[i - 1].lor ) {
+					// 	head = tail = '';
+					// }
+					head = tail = '';
 				}
 
 				aaa = 1;
@@ -1494,10 +1495,20 @@ var app = new Vue({
 			this.report.exceptcnt = 0; // 异常题数量(由于冲突，未能按规则生成)
 			this.res = [];
 			for (var i = 0; i < this.count; i++) {
-				var item = {
-					li: this.genOneFormula()
-					//li: this.genItem()
-				};
+				var item;
+				if((i <=50 && (i %5)==4)){
+					this.itemcount = 3;
+					item = {
+						li: this.genOneFormula()
+						//li: this.genItem()
+					};
+				}else {
+					this.itemcount = 2;
+					item = {
+						li: this.genOneFormula()
+						//li: this.genItem()
+					};
+				}
 				//console.error(JSON.stringify(item));
 				this.res.push(item);
 			}
@@ -1516,9 +1527,15 @@ var app = new Vue({
 					pre_rr = arr[i-5]["li"][0]["rgt"];
 					now_rr = this.res[i]["li"][0]["rgt"];
 					while(pre_r == now_r || pre_l == now_l|| pre_rr == now_rr) {
+						if((i <=50 && (i %5)==4)) {
+							this.itemcount = 3;
+						}else{
+							this.itemcount = 2;
+						}
 						item = {
 							li: this.genOneFormula()
 						};
+
 						now_r = item["li"][0]["result"];
 						now_l = item["li"][0]["lft"];
 						now_rr = item["li"][0]["rgt"];
