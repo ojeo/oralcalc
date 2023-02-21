@@ -24,8 +24,8 @@ function IsPC() {
 	return flag;
 }
 if(IsPC()){
-	g_fontsize = 26;
-	g_cellSpacing = 15;
+	g_fontsize = 22;
+	g_cellSpacing = 12;
 }
 function setWarning() {
 	haveWarning = true;
